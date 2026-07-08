@@ -256,7 +256,31 @@
 </head>
 
 <body>
-    <div class="container">
+    <!-- Full-Width Dashboard Hero Header -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 45px 20px 65px 20px; text-align: center; border-bottom: 4px solid #3b82f6; position: relative;">
+        <h1 style="font-size: 32px; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; text-shadow: 0 4px 10px rgba(0,0,0,0.4);">
+            Kegiatan Kajian Risiko Bencana
+        </h1>
+        <h2 style="font-size: 22px; font-weight: 700; color: #fbbf24; margin: 12px 0 0 0; letter-spacing: 5px; text-transform: uppercase;">
+            Kabupaten Karawang
+        </h2>
+    </div>
+
+    <!-- Main Content Container Overlapping the Header -->
+    <div class="container" style="position: relative; margin-top: -40px; z-index: 10; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15); background: white;">
+        
+        <!-- Instruction Box -->
+        <div style="background-color: #f0f9ff; border-left: 4px solid #3b82f6; padding: 18px 20px; margin-bottom: 25px; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <h4 style="margin: 0 0 10px 0; color: #1d4ed8; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                💡 Panduan Pengisian & Pencarian
+            </h4>
+            <ul style="margin: 0; padding-left: 22px; color: #334155; font-size: 14px; line-height: 1.6;">
+                <li>Gunakan kotak pencarian atau <strong>Filter Kolom</strong> (pilihan tarik-turun pada masing-masing judul kolom) untuk menemukan Kecamatan/Desa Anda dengan cepat.</li>
+                <li>Gulir (geser) tabel ke arah <strong>paling kanan</strong> untuk menemukan kolom <strong>Status InaRISK</strong> dan <strong>Catatan</strong>.</li>
+                <li>Setelah mengisi status atau catatan, pastikan Anda menekan tombol <strong style="background-color: #f39c12; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Simpan</strong> hingga warnanya berubah menjadi hijau (<strong style="background-color: #27ae60; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Tersimpan</strong>).</li>
+            </ul>
+        </div>
+
         <div class="header-section">
             <h2>📊 Matriks Potensi Bencana Kawasan</h2>
             <div style="display: flex; gap: 10px; align-items: center;">
@@ -5006,49 +5030,37 @@
         </div>
     </div>
 
-    <div class="container" style="margin-top: 20px;">
-        <div class="header-section">
-            <h2>📝 Catatan Bahaya Tambahan</h2>
-        </div>
-        <p style="font-size: 14px; margin-bottom: 20px;">Silakan isi formulir di bawah ini jika terdapat potensi bahaya
-            lain yang belum terakomodir pada matriks di atas.</p>
-        <div class="form-container"
-            style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border);">
-            <form id="formBahayaTambahan" onsubmit="submitBahaya(event)">
-                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 200px;">
-                        <label for="inputKecamatan"
-                            style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600;">Kecamatan</label>
-                        <input type="text" id="inputKecamatan" class="form-input" placeholder="Masukkan nama kecamatan"
-                            required>
-                    </div>
-                    <div style="flex: 1; min-width: 200px;">
-                        <label for="inputDesa"
-                            style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600;">Desa</label>
-                        <input type="text" id="inputDesa" class="form-input" placeholder="Masukkan nama desa" required>
-                    </div>
-                    <div style="flex: 1; min-width: 200px;">
-                        <label for="inputBahaya"
-                            style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600;">Jenis
-                            Bahaya</label>
-                        <input type="text" id="inputBahaya" class="form-input" placeholder="Misal: Angin Puting Beliung"
-                            required>
-                    </div>
+    <!-- Credit Footer Elegant -->
+    <div class="container" style="margin-top: 30px; margin-bottom: 40px; padding: 0; background: linear-gradient(135deg, #374151 0%, #1f2937 100%); border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); overflow: hidden; border: 1px solid #4b5563;">
+        
+        <!-- Top Accent Line -->
+        <div style="height: 4px; background: linear-gradient(90deg, #3b82f6, #10b981, #f59e0b);"></div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 30px 40px; gap: 30px;">
+            
+            <!-- Left Side: App Name and Project Info -->
+            <div style="text-align: left; flex: 1; min-width: 250px;">
+                <h3 style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">Napak Tilas Sys</h3>
+                
+                <div style="margin-top: 15px; font-size: 14px; color: #cbd5e1; line-height: 1.6;">
+                    <div style="margin-bottom: 5px;"><strong style="color: #3b82f6;">Kegiatan:</strong> Kajian Risiko Bencana 2026</div>
+                    <div><strong style="color: #10b981;">Lokasi:</strong> Kabupaten Karawang</div>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label for="inputKeterangan"
-                        style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600;">Keterangan
-                        Singkat</label>
-                    <textarea id="inputKeterangan" class="form-input" rows="3"
-                        placeholder="Tuliskan keterangan detail mengenai bahaya tersebut" required
-                        style="resize: vertical;"></textarea>
+            </div>
+            
+            <!-- Right Side: Contact and Dev Info -->
+            <div style="text-align: right; flex: 1; min-width: 250px; font-size: 14px; color: #cbd5e1; line-height: 1.6;">
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #f59e0b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Contact Person (WA)</strong><br>
+                    <span style="color: #ffffff; font-weight: 500;">+62 822-1023-4009</span> <span style="font-size: 12px; color: #94a3b8;">(Mutia R)</span> 
+                    <span style="margin: 0 8px; color: #475569;">|</span> 
+                    <span style="color: #ffffff; font-weight: 500;">+62 851-6198-1801</span> <span style="font-size: 12px; color: #94a3b8;">(Teguh)</span>
                 </div>
-                <div style="text-align: right;">
-                    <button type="submit" class="submit-btn" id="submitBtn">Kirim Laporan</button>
+                <div style="display: inline-block; padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                    <span style="color: #94a3b8; font-size: 12px;">WebDev:</span> <strong style="color: #ffffff; letter-spacing: 0.5px;">Faisal F</strong>
                 </div>
-                <div id="formStatus"
-                    style="margin-top: 10px; font-size: 14px; display: none; padding: 10px; border-radius: 6px;"></div>
-            </form>
+            </div>
+            
         </div>
     </div>
 
@@ -5268,52 +5280,6 @@
         }
     </script>
 
-    <!-- Skrip JS untuk Form Bahaya Tambahan -->
-    <script>
-        async function submitBahaya(event) {
-            event.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const status = document.getElementById('formStatus');
-
-            const data = {
-                kecamatan: document.getElementById('inputKecamatan').value,
-                desa: document.getElementById('inputDesa').value,
-                jenis_bahaya: document.getElementById('inputBahaya').value,
-                keterangan: document.getElementById('inputKeterangan').value,
-                timestamp: new Date().toISOString()
-            };
-
-            btn.disabled = true;
-            btn.textContent = "Mengirim...";
-            status.style.display = 'none';
-
-            try {
-                if (GOOGLE_SCRIPT_URL !== "") {
-                    const response = await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(data)
-                    });
-                    if (!response.ok) throw new Error("Gagal mengirim data ke server");
-                } else {
-                    // Simulasi delay jika belum ada URL
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                }
-
-                status.textContent = "Berhasil! Laporan bahaya tambahan telah dikirimkan.";
-                status.className = "alert-success";
-                status.style.display = 'block';
-                document.getElementById('formBahayaTambahan').reset();
-            } catch (error) {
-                status.textContent = "Terjadi kesalahan: " + error.message;
-                status.className = "alert-error";
-                status.style.display = 'block';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "Kirim Laporan";
-            }
-        }
-    </script>
 
     <!-- Skrip JS untuk Export ke CSV -->
     <script>
