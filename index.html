@@ -5068,24 +5068,41 @@
             const rows = tbody.querySelectorAll("tr");
 
             // 1. TAMBAHAN: Kolom Catatan di Pinggir Tabel
-            const th = document.createElement("th");
-            th.style.textAlign = "center";
-            // Tambahkan filter tersembunyi agar fungsi script pencarian (berdasarkan indeks kolom) tetap berjalan normal
-            th.innerHTML = 'Catatan<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Tambahkan Jika ada Jenis<br>Bahaya Yang Tidak Tercover)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
-            theadTr.appendChild(th);
+            const thInaRISK = document.createElement("th");
+            thInaRISK.style.textAlign = "center";
+            thInaRISK.innerHTML = 'Status Pengisian InaRISK Personal<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Pilih Status)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
+            theadTr.appendChild(thInaRISK);
+
+            const thCatatan = document.createElement("th");
+            thCatatan.style.textAlign = "center";
+            thCatatan.innerHTML = 'Catatan<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Tambahkan Jika ada Jenis<br>Bahaya Yang Tidak Tercover)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
+            theadTr.appendChild(thCatatan);
 
             rows.forEach(row => {
                 const kecamatan = row.cells[0].innerText.trim();
                 const desa = row.cells[1].innerText.trim();
                 const noteKey = "note_" + kecamatan + "_" + desa;
+                const inariskKey = "inarisk_" + kecamatan + "_" + desa;
                 const savedNote = localStorage.getItem(noteKey) || "";
+                const savedInarisk = localStorage.getItem(inariskKey) || "";
 
-                const btnStyle = savedNote ? "background-color: #27ae60;" : "background-color: #f39c12;";
-                const btnText = savedNote ? "Tersimpan" : "Simpan";
-                const isDisabled = savedNote ? "disabled" : "";
+                const isSaved = savedNote !== "" || savedInarisk !== "";
+                const btnStyle = isSaved ? "background-color: #27ae60;" : "background-color: #f39c12;";
+                const btnText = isSaved ? "Tersimpan" : "Simpan";
+                const isDisabled = isSaved ? "disabled" : "";
 
-                const td = document.createElement("td");
-                td.innerHTML = `
+                const tdInaRISK = document.createElement("td");
+                tdInaRISK.innerHTML = `
+                    <select class="form-input row-inarisk-input" data-key="${inariskKey}" style="width: 120px; font-size: 11px; padding: 4px 6px; font-family: inherit; height: 38px; cursor: pointer;" ${isDisabled}>
+                        <option value="" ${savedInarisk === "" ? "selected" : ""}>- Pilih -</option>
+                        <option value="Sudah" ${savedInarisk === "Sudah" ? "selected" : ""}>Sudah</option>
+                        <option value="Belum" ${savedInarisk === "Belum" ? "selected" : ""}>Belum</option>
+                    </select>
+                `;
+                row.appendChild(tdInaRISK);
+
+                const tdCatatan = document.createElement("td");
+                tdCatatan.innerHTML = `
                     <div style="display: flex; gap: 5px; align-items: center;">
                         <textarea class="form-input row-note-input" data-key="${noteKey}" placeholder="Tulis sesuatu..." rows="2" style="width: 150px; font-size: 11px; padding: 4px 6px; resize: vertical; font-family: inherit; line-height: 1.3; height: 38px; min-height: 38px;" ${isDisabled}>${savedNote}</textarea>
                         <div style="display: flex; flex-direction: column; gap: 2px;">
@@ -5094,7 +5111,7 @@
                         </div>
                     </div>
                 `;
-                row.appendChild(td);
+                row.appendChild(tdCatatan);
             });
 
             // Re-select select filters after column appending (if needed)
@@ -5170,18 +5187,23 @@
             const row = btn.closest("tr");
             const kecamatan = row.cells[0].innerText.trim();
             const desa = row.cells[1].innerText.trim();
-            const input = row.querySelector(".row-note-input");
-            const catatan = input.value.trim();
-            const noteKey = input.getAttribute("data-key");
+            const inputNote = row.querySelector(".row-note-input");
+            const inputInarisk = row.querySelector(".row-inarisk-input");
+            
+            const catatan = inputNote.value.trim();
+            const inarisk = inputInarisk.value.trim();
+            const noteKey = inputNote.getAttribute("data-key");
+            const inariskKey = inputInarisk.getAttribute("data-key");
 
-            if (!catatan) {
-                alert("Catatan tidak boleh kosong!");
+            if (!catatan && !inarisk) {
+                alert("Catatan dan isian InaRISK tidak boleh kosong semua!");
                 return;
             }
 
             const data = {
                 kecamatan: kecamatan,
                 desa: desa,
+                isi_inarisk: inarisk,
                 catatan: catatan,
                 timestamp: new Date().toISOString()
             };
@@ -5206,10 +5228,12 @@
 
                 // Simpan ke localStorage agar tidak hilang saat direfresh
                 localStorage.setItem(noteKey, catatan);
+                localStorage.setItem(inariskKey, inarisk);
 
                 btn.innerText = "Tersimpan";
                 btn.style.backgroundColor = "#27ae60";
-                input.disabled = true;
+                inputNote.disabled = true;
+                inputInarisk.disabled = true;
             } catch (error) {
                 alert("Terjadi kesalahan: " + error.message);
                 btn.innerText = originalText;
@@ -5220,17 +5244,24 @@
 
         // 5. Fungsi Reset/Hapus Catatan Baris
         function resetCatatanBaris(resetBtn) {
-            const container = resetBtn.closest("td");
-            const input = container.querySelector(".row-note-input");
-            const submitBtn = container.querySelector(".row-note-btn");
-            const noteKey = input.getAttribute("data-key");
+            const row = resetBtn.closest("tr");
+            const inputNote = row.querySelector(".row-note-input");
+            const inputInarisk = row.querySelector(".row-inarisk-input");
+            const submitBtn = row.querySelector(".row-note-btn");
+            
+            const noteKey = inputNote.getAttribute("data-key");
+            const inariskKey = inputInarisk.getAttribute("data-key");
 
             // Hapus dari localStorage
             if(noteKey) localStorage.removeItem(noteKey);
+            if(inariskKey) localStorage.removeItem(inariskKey);
 
             // Kembalikan ke kondisi awal
-            input.value = "";
-            input.disabled = false;
+            inputNote.value = "";
+            inputInarisk.value = "";
+            inputNote.disabled = false;
+            inputInarisk.disabled = false;
+            
             submitBtn.innerText = "Simpan";
             submitBtn.style.backgroundColor = "#f39c12";
             submitBtn.disabled = false;
@@ -5310,12 +5341,10 @@
                         let cell = row.cells[j];
                         let cellText = "";
 
-                        // Kolom terakhir adalah input teks catatan
-                        if (j === row.cells.length - 1) {
-                            const input = cell.querySelector(".row-note-input");
-                            if (input) {
-                                cellText = input.value.trim();
-                            }
+                        // Jika sel memiliki input form (Catatan / InaRISK)
+                        const input = cell.querySelector("textarea, select.row-inarisk-input");
+                        if (input && input.classList.contains("form-input")) {
+                            cellText = input.value.trim();
                         } else {
                             cellText = cell.innerText.trim();
                         }
