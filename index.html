@@ -272,12 +272,23 @@
         <!-- Instruction Box -->
         <div style="background-color: #f8fafc; border-left: 4px solid #94a3b8; padding: 18px 20px; margin-bottom: 25px; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <h4 style="margin: 0 0 10px 0; color: #475569; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                💡 Panduan Pengisian & Pencarian
+                💡 Panduan Pengisian & Pencarian Matriks
+            </h4>
+            <ul style="margin: 0; padding-left: 22px; color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 15px;">
+                <li><strong>Pencarian Cepat:</strong> Gunakan kotak Cari Bebas di kanan atas atau Filter Kolom (menu tarik-turun pada masing-masing judul kolom) untuk menemukan data Kecamatan/Desa Anda dengan cepat.</li>
+                <li><strong>Navigasi Tabel:</strong> Gulir (geser) tabel ke arah paling kanan untuk menemukan kolom Status Pengisian InaRISK Personal, Status Pengisian Kuisioner Tambahan, dan Catatan.</li>
+                <li><strong>Mode Edit:</strong> Klik tombol Edit (berwarna biru) di ujung kanan baris tabel untuk mulai mengisi atau mengubah data.</li>
+                <li><strong>Menyimpan Data:</strong> Setelah mengisi status atau catatan, pastikan Anda menekan tombol <strong style="background-color: #f39c12; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Simpan</strong>. Proses berhasil jika warna tombol berubah menjadi hijau (<strong style="background-color: #27ae60; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Tersimpan</strong>).</li>
+            </ul>
+
+            <h4 style="margin: 0 0 10px 0; color: #475569; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                📱 Panduan Pengisian Kuisioner Kesiapsiagaan Masyarakat
             </h4>
             <ul style="margin: 0; padding-left: 22px; color: #64748b; font-size: 14px; line-height: 1.6;">
-                <li>Gunakan kotak pencarian atau <strong>Filter Kolom</strong> (pilihan tarik-turun pada masing-masing judul kolom) untuk menemukan Kecamatan/Desa Anda dengan cepat.</li>
-                <li>Gulir (geser) tabel ke arah <strong>paling kanan</strong> untuk menemukan kolom <strong>Status InaRISK</strong> dan <strong>Catatan</strong>.</li>
-                <li>Setelah mengisi status atau catatan, pastikan Anda menekan tombol <strong style="background-color: #f39c12; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Simpan</strong> hingga warnanya berubah menjadi hijau (<strong style="background-color: #27ae60; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">Tersimpan</strong>).</li>
+                <li><strong>Aplikasi InaRISK Personal:</strong> Unduh aplikasi InaRISK Personal di Google Play Store untuk mengisi kuisioner kesiapsiagaan masyarakat pada ancaman bencana berikut:<br>
+                Banjir, Banjir Bandang, Cuaca Ekstrem (Cueks), Gelombang Ekstrem dan Abrasi (GEA), Gempa Bumi, Kebakaran Hutan dan Lahan (Karhutla), Kekeringan, Longsor, dan Tsunami.</li>
+                <li><strong>Kuisioner Tambahan (Tautan Web):</strong> Khusus untuk pengisian kuisioner bencana Likuefaksi dan Kegagalan Teknologi, silakan isi melalui tautan kuisioner tambahan berikut:<br>
+                👉 <a href="https://bit.ly/IKM_KRBKarawang2026" target="_blank" style="color: #3498db; text-decoration: none; font-weight: bold;">https://bit.ly/IKM_KRBKarawang2026</a></li>
             </ul>
         </div>
 
@@ -5085,6 +5096,11 @@
             thInaRISK.innerHTML = 'Status Pengisian InaRISK Personal<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Pilih Status)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
             theadTr.appendChild(thInaRISK);
 
+            const thKuisioner = document.createElement("th");
+            thKuisioner.style.textAlign = "center";
+            thKuisioner.innerHTML = 'Status Pengisian Kuisioner Tambahan<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Pilih Status)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
+            theadTr.appendChild(thKuisioner);
+
             const thCatatan = document.createElement("th");
             thCatatan.style.textAlign = "center";
             thCatatan.innerHTML = 'Catatan<br><span style="display: block; text-align: center; font-size: 11px; font-weight: normal; font-style: italic; margin-top: 2px;">(Tambahkan Jika ada Jenis<br>Bahaya Yang Tidak Tercover)</span><select class="column-filter" style="visibility:hidden; height:0; margin:0; padding:0;"><option value=""></option></select>';
@@ -5095,10 +5111,12 @@
                 const desa = row.cells[1].innerText.trim();
                 const noteKey = "note_" + kecamatan + "_" + desa;
                 const inariskKey = "inarisk_" + kecamatan + "_" + desa;
+                const kuisionerKey = "kuisioner_" + kecamatan + "_" + desa;
                 const savedNote = localStorage.getItem(noteKey) || "";
                 const savedInarisk = localStorage.getItem(inariskKey) || "";
+                const savedKuisioner = localStorage.getItem(kuisionerKey) || "";
 
-                const isSaved = savedNote !== "" || savedInarisk !== "";
+                const isSaved = savedNote !== "" || savedInarisk !== "" || savedKuisioner !== "";
                 const btnStyle = isSaved ? "background-color: #27ae60;" : "background-color: #f39c12;";
                 const btnText = isSaved ? "Tersimpan" : "Simpan";
                 const isDisabled = isSaved ? "disabled" : "";
@@ -5112,6 +5130,16 @@
                     </select>
                 `;
                 row.appendChild(tdInaRISK);
+
+                const tdKuisioner = document.createElement("td");
+                tdKuisioner.innerHTML = `
+                    <select class="form-input row-kuisioner-input" data-key="${kuisionerKey}" style="width: 120px; font-size: 11px; padding: 4px 6px; font-family: inherit; height: 38px; cursor: pointer;" ${isDisabled}>
+                        <option value="" ${savedKuisioner === "" ? "selected" : ""}>- Pilih -</option>
+                        <option value="Sudah" ${savedKuisioner === "Sudah" ? "selected" : ""}>Sudah</option>
+                        <option value="Belum" ${savedKuisioner === "Belum" ? "selected" : ""}>Belum</option>
+                    </select>
+                `;
+                row.appendChild(tdKuisioner);
 
                 const tdCatatan = document.createElement("td");
                 tdCatatan.innerHTML = `
@@ -5201,14 +5229,17 @@
             const desa = row.cells[1].innerText.trim();
             const inputNote = row.querySelector(".row-note-input");
             const inputInarisk = row.querySelector(".row-inarisk-input");
+            const inputKuisioner = row.querySelector(".row-kuisioner-input");
             
             const catatan = inputNote.value.trim();
             const inarisk = inputInarisk.value.trim();
+            const kuisioner = inputKuisioner.value.trim();
             const noteKey = inputNote.getAttribute("data-key");
             const inariskKey = inputInarisk.getAttribute("data-key");
+            const kuisionerKey = inputKuisioner.getAttribute("data-key");
 
-            if (!catatan && !inarisk) {
-                alert("Catatan dan isian InaRISK tidak boleh kosong semua!");
+            if (!catatan && !inarisk && !kuisioner) {
+                alert("Catatan, isian InaRISK, dan Kuisioner tidak boleh kosong semua!");
                 return;
             }
 
@@ -5216,6 +5247,7 @@
                 kecamatan: kecamatan,
                 desa: desa,
                 isi_inarisk: inarisk,
+                isi_kuisioner: kuisioner,
                 catatan: catatan,
                 timestamp: new Date().toISOString()
             };
@@ -5241,11 +5273,13 @@
                 // Simpan ke localStorage agar tidak hilang saat direfresh
                 localStorage.setItem(noteKey, catatan);
                 localStorage.setItem(inariskKey, inarisk);
+                localStorage.setItem(kuisionerKey, kuisioner);
 
                 btn.innerText = "Tersimpan";
                 btn.style.backgroundColor = "#27ae60";
                 inputNote.disabled = true;
                 inputInarisk.disabled = true;
+                inputKuisioner.disabled = true;
             } catch (error) {
                 alert("Terjadi kesalahan: " + error.message);
                 btn.innerText = originalText;
@@ -5259,11 +5293,13 @@
             const row = editBtn.closest("tr");
             const inputNote = row.querySelector(".row-note-input");
             const inputInarisk = row.querySelector(".row-inarisk-input");
+            const inputKuisioner = row.querySelector(".row-kuisioner-input");
             const submitBtn = row.querySelector(".row-note-btn");
             
             // Buka kuncian (enable form) tanpa menghapus data yang ada
             inputNote.disabled = false;
             inputInarisk.disabled = false;
+            inputKuisioner.disabled = false;
             
             // Kembalikan tombol ke mode 'Simpan'
             submitBtn.innerText = "Simpan";
@@ -5302,8 +5338,8 @@
                         let cell = row.cells[j];
                         let cellText = "";
 
-                        // Jika sel memiliki input form (Catatan / InaRISK)
-                        const input = cell.querySelector("textarea, select.row-inarisk-input");
+                        // Jika sel memiliki input form (Catatan / InaRISK / Kuisioner)
+                        const input = cell.querySelector("textarea, select.row-inarisk-input, select.row-kuisioner-input");
                         if (input && input.classList.contains("form-input")) {
                             cellText = input.value.trim();
                         } else {
